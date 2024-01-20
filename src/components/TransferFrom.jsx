@@ -175,7 +175,7 @@ const TransferFrom = () => {
           }
         />
         <button
-          onClick={fetchTransferEvents}
+          onClick={handleTransfer}
           className="form-button"
           disabled={isAmountExceedingBalance}
         >

@@ -1,0 +1,71 @@
+.certificate-container {
+  max-width: 600px;
+  margin: 100px auto 20px;
+  padding: 20px;
+  border: 2px solid purple;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background-color: purple;
+  text-align: center;
+  color: #fff;
+}
+
+.certificate-header {
+  margin-bottom: 20px;
+}
+
+.certificate-title {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+  color: #ffcc00;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1.3em;
+  margin-bottom: 15px;
+  opacity: 0.9;
+}
+
+.certificate-content {
+  margin-bottom: 20px;
+}
+
+.issued-by-line {
+  font-size: 1.2em; /* Font size for the issued by line */
+  color: #ffcc00; /* Yellow color for visibility on the background */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.select-chain {
+  padding: 12px;
+  margin: 15px 0;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  font-size: 1.2em;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #3498db;
+  font-weight: bold;
+}
+
+.mint-nft-button-container {
+  margin-top: 25px;
+}
+
+.mint-nft-button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.mint-nft-button:hover {
+  background-color: #45a049;
+}

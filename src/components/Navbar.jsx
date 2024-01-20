@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const navigation = [
   { name: "Home", to: "/", current: false },
   { name: "Transfer GHO", to: "/transfer", current: false },
-  { name: "Get GHONFT", to: "/transfer", current: false },
+  { name: "Get GHONFT", to: "/getNFT", current: false },
   // { name: "ViewNFT", to: "/transfer", current: false },
 ];
 
