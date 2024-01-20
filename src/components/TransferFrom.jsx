@@ -5,9 +5,11 @@ import { ethers } from "ethers";
 import "../styles/TransferFrom.css"; // Import the CSS file
 import ghoTokenImage from "/gho.png"; // Import the GHO token image
 import ERC20 from "../../ABI/ERC20.json";
+import GHORewardsABI from "../../ABI/GHORewards.json";
 import { useAccount } from "wagmi";
+import ContractAddresses from "../Helper/contractAddresses.json";
 
-const TransferFrom = ({ contract, account }) => {
+const TransferFrom = () => {
   const { address } = useAccount();
 
   const [toAddress, setToAddress] = useState("");
@@ -46,7 +48,7 @@ const TransferFrom = ({ contract, account }) => {
     };
 
     fetchUserBalance();
-  }, [contract, account]);
+  }, []);
 
   useEffect(() => {
     if (amount !== "") {
@@ -72,13 +74,76 @@ const TransferFrom = ({ contract, account }) => {
       const parsedAmount = ethers.utils.parseUnits(amount);
       console.log(parsedAmount);
 
-      const tx = await contract.transferGHOToken(toAddress, parsedAmount);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+
+      try {
+        const erc20 = new ethers.Contract(
+          "0xc4bF5CbDaBE595361438F8c6a187bDc330539c60",
+          ERC20.abi,
+          signer
+        );
+        const tx = await erc20.approve(
+          ContractAddresses["GHORewards"],
+          parsedAmount
+        );
+        await tx.wait();
+        console.log(`${amount} tokens Approved`);
+      } catch (error) {
+        console.log(error);
+      }
+
+      const GhoRewards = new ethers.Contract(
+        ContractAddresses["GHORewards"],
+        GHORewardsABI,
+        signer
+      );
+
+      const tx = await GhoRewards.transferGHOToken(
+        ContractAddresses["GHOToken"],
+        toAddress,
+        parsedAmount
+      );
       await tx.wait();
       console.log("Transfer successful!");
       setAmount(""); // Clear the input after a successful transfer
       setIsAmountExceedingBalance(false); // Reset the error state
     } catch (error) {
       console.error("Error transferring tokens:", error.message);
+    }
+  };
+
+  const fetchTransferEvents = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const GhoRewards = new ethers.Contract(
+        ContractAddresses["GHORewards"],
+        GHORewardsABI,
+        signer
+      );
+      const filter = GhoRewards.filters.GHOTransferred(address, null, null);
+
+      // Query for events with the specified filter
+      const events = await GhoRewards.queryFilter(filter, 0, "latest");
+
+      let totalAmount = 0;
+      let recipient = 0;
+      events.forEach((event) => {
+        const amountInHex = event.args[2];
+        recipient++;
+        totalAmount += parseInt(ethers.utils.formatUnits(amountInHex, 18));
+        console.log(parseInt(ethers.utils.formatUnits(amountInHex, 18)));
+      });
+
+      // Update the state with the total amount
+      console.log("Total Amount Transferred:", totalAmount);
+      console.log("Total Recipients:", recipient);
+
+      // Update the state with the fetched events
+      // console.log(events[0]["args"]["amount"]);
+    } catch (error) {
+      console.error("Error fetching transfer events:", error.message);
     }
   };
 
@@ -110,7 +175,7 @@ const TransferFrom = ({ contract, account }) => {
           }
         />
         <button
-          onClick={handleTransfer}
+          onClick={fetchTransferEvents}
           className="form-button"
           disabled={isAmountExceedingBalance}
         >
