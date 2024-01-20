@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { modeTestnet } from "wagmi/chains";
+import { sepolia } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
 
-const chains = [modeTestnet];
+const chains = [sepolia];
 
 const config = createConfig(
   getDefaultConfig({
