@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract GHONFT is ERC721URIStorage {
     string constant TOKEN_URI =
-        "https://ipfs.io/ipfs/QmfMJcTUi957eBsesERyRBDmoXqd1cE3MvGiRk4NC1X48H?filename=image.png";
+        "https://ipfs.io/ipfs/QmfMJcTUi957eBsesERyRBDmoXqd1cE3MvGiRk4NC1X48H";
     uint256 internal tokenId;
 
     constructor() ERC721("GHONFT", "GNFT") {
